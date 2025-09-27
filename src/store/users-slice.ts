@@ -189,7 +189,7 @@ const initialState: UsersState = [
   },
 ];
 
-const usersSlice = createSlice<UsersState>({
+const usersSlice = createSlice({
   name: 'users',
   initialState,
   reducers: {

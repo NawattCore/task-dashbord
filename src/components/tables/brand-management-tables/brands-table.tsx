@@ -818,7 +818,7 @@ export default function BrandsTable() {
                     <FormControl>
                       <Select
                         value={field.value}
-                        onValueChange={val => field.onChange(val as any)}
+                        onValueChange={val => field.onChange(val as string)}
                       >
                         <SelectTrigger>
                           <SelectValue placeholder="اختر الحالة" />
