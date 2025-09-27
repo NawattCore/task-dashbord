@@ -1,0 +1,56 @@
+# ==================================================== # 
+# ========== Production Workflow ===================== #
+# ==================================================== #
+name: Production workflow 
+
+# + Trigger + # 
+on:
+  push:
+    branches: ['main']
+
+  workflow_dispatch:
+    inputs: 
+        confirm: 
+          describtion: "Are You Need To Update Production ?"
+          required: true
+          default: false
+          type: choice
+          options: 
+              - 'true'
+              - 'false'
+
+
+# + Jobs + # 
+jobs:
+  deployment:
+    if: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.confirm== 'true'&& ( github.triggering_actor == 'AbdalkaderNeGM' || github.trigger_actor == 'ahmed246666') }}
+    runs-on: deploy
+    steps:
+      - name: Checkout Code Repository
+        uses: actions/checkout@v4
+      
+     
+      - name: Create .env File 
+        run: | 
+            echo "Start To Write .env File Via Github Secerts" 
+            echo "End To Write .env File Via Github Secerts"
+
+      - name: Install dependencies
+        run: npm install --legacy-peer-deps
+        
+      - name: Install sharp
+        run: npm install sharp --legacy-peer-deps
+
+      - name: Build and Run Server
+        run: npm run build
+        env:
+          CI: ""
+
+      - name: Clear existing PM2 processes
+        run: |
+          pm2 delete all || true
+
+      - name: Start Server with PM2
+        run: |
+          pm2 start npm --name "influencers_board" -- start --watch
+          pm2 save  

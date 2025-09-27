@@ -1,0 +1,4623 @@
+openapi: 3.0.3
+info:
+  title: callva API
+  version: 1.0.0
+  description: Documentation of API endpoints of callva
+paths:
+  /api/awaiting-list/:
+    get:
+      operationId: awaiting_list_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: is_contacted
+        schema:
+          type: boolean
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: product__is_available
+        schema:
+          type: boolean
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - awaiting-list
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAwaitingListProductsRetrieveList'
+          description: ''
+    post:
+      operationId: awaiting_list_create
+      tags:
+      - awaiting-list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwaitingListProductsCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AwaitingListProductsCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AwaitingListProductsCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwaitingListProductsCreate'
+          description: ''
+  /api/awaiting-list/{id}/:
+    get:
+      operationId: awaiting_list_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this awaiting list products.
+        required: true
+      tags:
+      - awaiting-list
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwaitingListProductsRetrieve'
+          description: ''
+    put:
+      operationId: awaiting_list_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this awaiting list products.
+        required: true
+      tags:
+      - awaiting-list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AwaitingListProductsUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AwaitingListProductsUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AwaitingListProductsUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwaitingListProductsUpdate'
+          description: ''
+    patch:
+      operationId: awaiting_list_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this awaiting list products.
+        required: true
+      tags:
+      - awaiting-list
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAwaitingListProductsUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAwaitingListProductsUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAwaitingListProductsUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwaitingListProductsUpdate'
+          description: ''
+  /api/awaiting-list/stats/:
+    get:
+      operationId: awaiting_list_stats_retrieve
+      tags:
+      - awaiting-list
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AwaitingListProductsStats'
+          description: ''
+  /api/carts/:
+    get:
+      operationId: carts_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: customer
+        schema:
+          type: number
+      - in: query
+        name: is_contacted
+        schema:
+          type: boolean
+      - in: query
+        name: ordering
+        schema:
+          type: string
+        description: 'Ordering field: "created_at" & "-created_at"'
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: total_price_max
+        schema:
+          type: number
+          format: float
+      - in: query
+        name: total_price_min
+        schema:
+          type: number
+          format: float
+      tags:
+      - carts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCartList'
+          description: ''
+  /api/carts/{id}/:
+    get:
+      operationId: carts_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this cart.
+        required: true
+      tags:
+      - carts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+          description: ''
+    patch:
+      operationId: carts_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this cart.
+        required: true
+      tags:
+      - carts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCartUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCartUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCartUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CartUpdate'
+          description: ''
+  /api/carts/stats/:
+    get:
+      operationId: carts_stats_retrieve
+      tags:
+      - carts
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+          description: ''
+  /api/carts/sync/:
+    post:
+      operationId: carts_sync_create
+      tags:
+      - carts
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Cart'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Cart'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+          description: ''
+  /api/constants:
+    get:
+      operationId: constants_retrieve
+      tags:
+      - constants
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/contact-requests/:
+    get:
+      operationId: contact_requests_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: is_contacted
+        schema:
+          type: boolean
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - contact-requests
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedContactRequestsRetrieveList'
+          description: ''
+    post:
+      operationId: contact_requests_create
+      tags:
+      - contact-requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequestsCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ContactRequestsCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ContactRequestsCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactRequestsCreate'
+          description: ''
+  /api/contact-requests/{id}/:
+    get:
+      operationId: contact_requests_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this contact requests.
+        required: true
+      tags:
+      - contact-requests
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactRequestsRetrieve'
+          description: ''
+    put:
+      operationId: contact_requests_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this contact requests.
+        required: true
+      tags:
+      - contact-requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContactRequestsUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ContactRequestsUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ContactRequestsUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactRequestsUpdate'
+          description: ''
+    patch:
+      operationId: contact_requests_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this contact requests.
+        required: true
+      tags:
+      - contact-requests
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedContactRequestsUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedContactRequestsUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedContactRequestsUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactRequestsUpdate'
+          description: ''
+  /api/contact-requests/stats/:
+    get:
+      operationId: contact_requests_stats_retrieve
+      tags:
+      - contact-requests
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ContactRequestsStats'
+          description: ''
+  /api/coupons/:
+    get:
+      operationId: coupons_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: is_active
+        schema:
+          type: boolean
+      - in: query
+        name: ordering
+        schema:
+          type: string
+        description: 'Ordering field: "created_at" & "-created_at"'
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - coupons
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCouponRetrieveList'
+          description: ''
+    post:
+      operationId: coupons_create
+      tags:
+      - coupons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CouponCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CouponCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CouponCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponCreate'
+          description: ''
+  /api/coupons/{id}/:
+    get:
+      operationId: coupons_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this coupon.
+        required: true
+      tags:
+      - coupons
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponRetrieve'
+          description: ''
+    put:
+      operationId: coupons_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this coupon.
+        required: true
+      tags:
+      - coupons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CouponUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CouponUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CouponUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponUpdate'
+          description: ''
+    patch:
+      operationId: coupons_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this coupon.
+        required: true
+      tags:
+      - coupons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCouponUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCouponUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCouponUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponUpdate'
+          description: ''
+    delete:
+      operationId: coupons_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this coupon.
+        required: true
+      tags:
+      - coupons
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/coupons/stats/:
+    get:
+      operationId: coupons_stats_retrieve
+      tags:
+      - coupons
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponRetrieve'
+          description: ''
+  /api/coupons/sync/:
+    post:
+      operationId: coupons_sync_create
+      tags:
+      - coupons
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CouponRetrieve'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CouponRetrieve'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CouponRetrieve'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponRetrieve'
+          description: ''
+  /api/customers/:
+    get:
+      operationId: customers_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: ordering
+        schema:
+          type: string
+        description: 'Ordering field: "id" & "-id"'
+      - in: query
+        name: orders_amount_max
+        schema:
+          type: number
+      - in: query
+        name: orders_amount_min
+        schema:
+          type: number
+      - in: query
+        name: orders_count_max
+        schema:
+          type: number
+      - in: query
+        name: orders_count_min
+        schema:
+          type: number
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - customers
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomerRetrieveList'
+          description: ''
+  /api/customers/{id}/:
+    get:
+      operationId: customers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this customer.
+        required: true
+      tags:
+      - customers
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerRetrieve'
+          description: ''
+  /api/customers/stats/:
+    get:
+      operationId: customers_stats_retrieve
+      tags:
+      - customers
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerStats'
+          description: ''
+  /api/customers/sync/:
+    post:
+      operationId: customers_sync_create
+      tags:
+      - customers
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/dashboard/orders/:
+    get:
+      operationId: dashboard_orders_retrieve
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+        description: 'Filter orders created from this date (format: YYYY-MM-DD)'
+      - in: query
+        name: created_to
+        schema:
+          type: string
+        description: 'Filter orders created to this date (format: YYYY-MM-DD)'
+      tags:
+      - dashboard
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardOrders'
+          description: ''
+  /api/dashboard/orders-contact-method/:
+    get:
+      operationId: dashboard_orders_contact_method_retrieve
+      tags:
+      - dashboard
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardOrdersContactMethod'
+          description: ''
+  /api/dashboard/orders-sale-channels/:
+    get:
+      operationId: dashboard_orders_sale_channels_retrieve
+      tags:
+      - dashboard
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardOrdersSaleChannels'
+          description: ''
+  /api/dashboard/orders-status/:
+    get:
+      operationId: dashboard_orders_status_retrieve
+      tags:
+      - dashboard
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardOrdersStatus'
+          description: ''
+  /api/dashboard/sales/:
+    get:
+      operationId: dashboard_sales_retrieve
+      parameters:
+      - in: query
+        name: range_type
+        schema:
+          type: string
+          enum:
+          - daily
+          - weekly
+        description: use 'daily' or 'weekly' value.
+        required: true
+      tags:
+      - dashboard
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DashboardSales'
+          description: ''
+  /api/notifications/:
+    get:
+      operationId: notifications_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - notifications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNotificationList'
+          description: ''
+  /api/notifications/{id}/read/:
+    post:
+      operationId: notifications_read_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this Notification.
+        required: true
+      tags:
+      - notifications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/notifications/mark-all-as-read/:
+    post:
+      operationId: notifications_mark_all_as_read_create
+      tags:
+      - notifications
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/orders/:
+    get:
+      operationId: orders_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: customer
+        schema:
+          type: number
+      - in: query
+        name: is_contacted
+        schema:
+          type: boolean
+      - in: query
+        name: ordering
+        schema:
+          type: string
+        description: 'Ordering field: "created_at" & "-created_at"'
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: payment_method
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: integer
+      tags:
+      - orders
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrderRetrieveList'
+          description: ''
+  /api/orders/{id}/:
+    get:
+      operationId: orders_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this order.
+        required: true
+      tags:
+      - orders
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderRetrieve'
+          description: ''
+    patch:
+      operationId: orders_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this order.
+        required: true
+      tags:
+      - orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrderUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderUpdate'
+          description: ''
+  /api/orders/{id}/status/:
+    post:
+      operationId: orders_status_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this order.
+        required: true
+      tags:
+      - orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderStatusUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrderStatusUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrderStatusUpdate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderStatusUpdate'
+          description: ''
+  /api/orders/stats/:
+    get:
+      operationId: orders_stats_retrieve
+      tags:
+      - orders
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderStats'
+          description: ''
+  /api/orders/sync/:
+    post:
+      operationId: orders_sync_create
+      tags:
+      - orders
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrderRetrieve'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrderRetrieve'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrderRetrieve'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderRetrieve'
+          description: ''
+  /api/permissions-groups/:
+    get:
+      operationId: permissions_groups_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - permissions-groups
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPermissionGroupRetrieveList'
+          description: ''
+    post:
+      operationId: permissions_groups_create
+      tags:
+      - permissions-groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionGroupCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PermissionGroupCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PermissionGroupCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionGroupCreate'
+          description: ''
+  /api/permissions-groups/{id}/:
+    get:
+      operationId: permissions_groups_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this permission group.
+        required: true
+      tags:
+      - permissions-groups
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionGroupRetrieve'
+          description: ''
+    put:
+      operationId: permissions_groups_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this permission group.
+        required: true
+      tags:
+      - permissions-groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PermissionGroupUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PermissionGroupUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PermissionGroupUpdate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionGroupUpdate'
+          description: ''
+    patch:
+      operationId: permissions_groups_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this permission group.
+        required: true
+      tags:
+      - permissions-groups
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedPermissionGroupUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedPermissionGroupUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedPermissionGroupUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionGroupUpdate'
+          description: ''
+    delete:
+      operationId: permissions_groups_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this permission group.
+        required: true
+      tags:
+      - permissions-groups
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/permissions-groups/all/:
+    get:
+      operationId: permissions_groups_all_retrieve
+      tags:
+      - permissions-groups
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PermissionGroupRetrieve'
+          description: ''
+  /api/plugins/:
+    get:
+      operationId: plugins_list
+      parameters:
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - plugins
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedMerchantPluginRetrieveList'
+          description: ''
+  /api/plugins/{plugin__plugin_type}/:
+    get:
+      operationId: plugins_retrieve
+      parameters:
+      - in: path
+        name: plugin__plugin_type
+        schema:
+          enum:
+          - contact
+          - awaiting_list
+          - wish_list
+          - phone
+          type: string
+          description: |-
+            * `contact` - Contact
+            * `awaiting_list` - Awaiting List
+            * `wish_list` - Wish List
+            * `phone` - Phone
+        required: true
+      tags:
+      - plugins
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantPluginRetrieve'
+          description: ''
+    patch:
+      operationId: plugins_partial_update
+      parameters:
+      - in: path
+        name: plugin__plugin_type
+        schema:
+          enum:
+          - contact
+          - awaiting_list
+          - wish_list
+          - phone
+          type: string
+          description: |-
+            * `contact` - Contact
+            * `awaiting_list` - Awaiting List
+            * `wish_list` - Wish List
+            * `phone` - Phone
+        required: true
+      tags:
+      - plugins
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedMerchantPluginUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedMerchantPluginUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedMerchantPluginUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MerchantPluginUpdate'
+          description: ''
+  /api/products/:
+    get:
+      operationId: products_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: ordering
+        schema:
+          type: string
+        description: 'Ordering field: "created_at" & "-created_at"'
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedProductRetrieveList'
+          description: ''
+  /api/products/{id}/:
+    get:
+      operationId: products_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this product.
+        required: true
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductRetrieve'
+          description: ''
+  /api/products/sync/:
+    post:
+      operationId: products_sync_create
+      tags:
+      - products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/reports/coupons/:
+    get:
+      operationId: reports_coupons_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCouponsReportList'
+          description: ''
+  /api/reports/coupons/stats/:
+    get:
+      operationId: reports_coupons_stats_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponsReportStats'
+          description: ''
+  /api/reports/customer-sales/:
+    get:
+      operationId: reports_customer_sales_list
+      description: Export mixin for exporting queryset as csv file
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCustomerSalesReportList'
+          description: ''
+  /api/reports/customer-sales/export/:
+    get:
+      operationId: reports_customer_sales_export_retrieve
+      description: Export the queryset as a CSV file
+      parameters:
+      - in: query
+        name: formata
+        schema:
+          type: string
+          enum:
+          - csv
+          - pdf
+        description: Export format (csv or pdf)
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerSalesReport'
+          description: ''
+  /api/reports/customer-sales/stats/:
+    get:
+      operationId: reports_customer_sales_stats_retrieve
+      description: Export mixin for exporting queryset as csv file
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerSalesReportStats'
+          description: ''
+  /api/reports/orders/:
+    get:
+      operationId: reports_orders_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrdersReportList'
+          description: ''
+  /api/reports/orders/stats/:
+    get:
+      operationId: reports_orders_stats_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrdersReportStats'
+          description: ''
+  /api/reports/performance/:
+    get:
+      operationId: reports_performance_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedPerformanceReportList'
+          description: ''
+  /api/reports/performance/stats/:
+    get:
+      operationId: reports_performance_stats_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PerformanceReportStats'
+          description: ''
+  /api/reports/salechannels/:
+    get:
+      operationId: reports_salechannels_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: date_filter
+        schema:
+          type: string
+        description: Filter orders by year and month in 'YYYY-MM' format
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: sale_channel
+        schema:
+          type: string
+        description: Filter orders by sale_channel
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrderSaleChannelsList'
+          description: ''
+  /api/reports/salechannels/stats/:
+    get:
+      operationId: reports_salechannels_stats_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderSaleChannelsStats'
+          description: ''
+  /api/reports/sales/:
+    get:
+      operationId: reports_sales_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSalesReportList'
+          description: ''
+  /api/reports/sales/stats/:
+    get:
+      operationId: reports_sales_stats_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SalesReportStats'
+          description: ''
+  /api/reports/transactions/:
+    get:
+      operationId: reports_transactions_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: date_filter
+        schema:
+          type: string
+        description: Filter orders by year and month in 'YYYY-MM' format
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: sale_channel
+        schema:
+          type: string
+        description: Filter orders by sale_channel
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          description: No response body
+  /api/reports/transactions/stats/:
+    get:
+      operationId: reports_transactions_stats_retrieve
+      tags:
+      - reports
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrderTransactionsStats'
+          description: ''
+  /api/salla-events/:
+    post:
+      operationId: salla_events_create
+      tags:
+      - salla-events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SallaEvent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SallaEvent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SallaEvent'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SallaEvent'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/staff/:
+    get:
+      operationId: staff_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: ordering
+        schema:
+          type: string
+        description: 'Ordering field: "created_at" & "-created_at"'
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - in: query
+        name: role
+        schema:
+          type: string
+          enum:
+          - call_center
+          - merchant
+        description: |-
+          * `merchant` - Merchant
+          * `call_center` - Call Center
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - staff
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedStaffRetrieveList'
+          description: ''
+    post:
+      operationId: staff_create
+      tags:
+      - staff
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserCreate'
+          description: ''
+  /api/staff/{id}/:
+    get:
+      operationId: staff_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - staff
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StaffRetrieve'
+          description: ''
+    put:
+      operationId: staff_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - staff
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+          description: ''
+    patch:
+      operationId: staff_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - staff
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedUserUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserUpdate'
+          description: ''
+    delete:
+      operationId: staff_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this user.
+        required: true
+      tags:
+      - staff
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AppTokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AppTokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AppTokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AppTokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/users/change-password/:
+    post:
+      operationId: users_change_password_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserChangePassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserChangePassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserChangePassword'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserChangePassword'
+          description: ''
+  /api/users/me/:
+    get:
+      operationId: users_me_retrieve
+      tags:
+      - users
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserRetrieve'
+          description: ''
+  /api/users/send-otp/:
+    post:
+      operationId: users_send_otp_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordSendOTP'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordSendOTP'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordSendOTP'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResetPasswordSendOTP'
+          description: ''
+  /api/users/set-new-password/:
+    post:
+      operationId: users_set_new_password_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordSetNewPassword'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordSetNewPassword'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordSetNewPassword'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResetPasswordSetNewPassword'
+          description: ''
+  /api/users/verify-otp/:
+    post:
+      operationId: users_verify_otp_create
+      tags:
+      - users
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordRVerifyOTP'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordRVerifyOTP'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/UserResetPasswordRVerifyOTP'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserResetPasswordRVerifyOTP'
+          description: ''
+  /api/wish-list-products/:
+    get:
+      operationId: wish_list_products_list
+      parameters:
+      - in: query
+        name: created_from
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: created_to
+        schema:
+          type: string
+          format: date-time
+      - in: query
+        name: is_contacted
+        schema:
+          type: boolean
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: A search term.
+        schema:
+          type: string
+      tags:
+      - wish-list-products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedWishListProductsRetrieveList'
+          description: ''
+    post:
+      operationId: wish_list_products_create
+      tags:
+      - wish-list-products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WishListProductsCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WishListProductsCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WishListProductsCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      - {}
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishListProductsCreate'
+          description: ''
+  /api/wish-list-products/{id}/:
+    get:
+      operationId: wish_list_products_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this wish list products.
+        required: true
+      tags:
+      - wish-list-products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishListProductsRetrieve'
+          description: ''
+    put:
+      operationId: wish_list_products_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this wish list products.
+        required: true
+      tags:
+      - wish-list-products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WishListProductsUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WishListProductsUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WishListProductsUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishListProductsUpdate'
+          description: ''
+    patch:
+      operationId: wish_list_products_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this wish list products.
+        required: true
+      tags:
+      - wish-list-products
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedWishListProductsUpdate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedWishListProductsUpdate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedWishListProductsUpdate'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishListProductsUpdate'
+          description: ''
+  /api/wish-list-products/stats/:
+    get:
+      operationId: wish_list_products_stats_retrieve
+      tags:
+      - wish-list-products
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WishListProductsStats'
+          description: ''
+  /api/wpp-events/{session_id}/:
+    post:
+      operationId: wpp_events_create
+      parameters:
+      - in: path
+        name: session_id
+        schema:
+          type: string
+        required: true
+      tags:
+      - wpp-events
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WPP'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/WPP'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/WPP'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WPP'
+          description: ''
+components:
+  schemas:
+    AppTokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+      required:
+      - password
+      - username
+    AwaitingListProductsCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        merchant:
+          type: string
+        customer:
+          type: string
+        product:
+          type: string
+      required:
+      - customer
+      - id
+      - merchant
+      - product
+    AwaitingListProductsRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          $ref: '#/components/schemas/CustomerRetrieve'
+        product:
+          $ref: '#/components/schemas/ProductRetrieve'
+        order:
+          type: integer
+          nullable: true
+        is_contacted:
+          type: boolean
+        created_at:
+          type: string
+          format: date
+          readOnly: true
+        note:
+          type: string
+          nullable: true
+      required:
+      - created_at
+      - customer
+      - id
+      - product
+    AwaitingListProductsStats:
+      type: object
+      properties:
+        total_awaiting_lists:
+          type: string
+          readOnly: true
+      required:
+      - total_awaiting_lists
+    AwaitingListProductsUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        is_contacted:
+          type: boolean
+        note:
+          type: string
+          nullable: true
+      required:
+      - id
+    Cart:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        merchant:
+          type: integer
+        customer:
+          $ref: '#/components/schemas/CustomerRetrieve'
+        code:
+          type: string
+          maxLength: 50
+        age_in_minutes:
+          type: integer
+          readOnly: true
+        checkout_url:
+          type: string
+          format: uri
+          maxLength: 200
+        total_price:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+        created_at:
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        is_contacted:
+          type: boolean
+        note:
+          type: string
+        order:
+          type: integer
+          nullable: true
+        items:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+        cart_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartItem'
+      required:
+      - age_in_minutes
+      - cart_items
+      - checkout_url
+      - code
+      - created_at
+      - customer
+      - id
+      - items
+      - merchant
+      - total_price
+      - updated_at
+    CartItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        product:
+          $ref: '#/components/schemas/ProductRetrieve'
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        cart:
+          type: integer
+      required:
+      - cart
+      - id
+      - product
+    CartUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_contacted:
+          type: boolean
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        note:
+          type: string
+      required:
+      - id
+    ContactMethodEnum:
+      enum:
+      - 1
+      - 2
+      type: integer
+      description: |-
+        * `1` - calling
+        * `2` - whatsapp
+    ContactRequestsCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        merchant:
+          type: string
+        customer:
+          type: string
+        phone:
+          type: string
+          nullable: true
+          maxLength: 15
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        content:
+          type: string
+      required:
+      - content
+      - customer
+      - id
+      - merchant
+    ContactRequestsRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          $ref: '#/components/schemas/CustomerRetrieve'
+        phone:
+          type: string
+          nullable: true
+          maxLength: 15
+        name:
+          type: string
+          nullable: true
+          maxLength: 100
+        content:
+          type: string
+        order:
+          type: integer
+          nullable: true
+        is_contacted:
+          type: boolean
+        created_at:
+          type: string
+          format: date
+          readOnly: true
+        note:
+          type: string
+          nullable: true
+      required:
+      - content
+      - created_at
+      - customer
+      - id
+    ContactRequestsStats:
+      type: object
+      properties:
+        total_contact_requests:
+          type: string
+          readOnly: true
+      required:
+      - total_contact_requests
+    ContactRequestsUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_contacted:
+          type: boolean
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        note:
+          type: string
+          nullable: true
+      required:
+      - id
+    CouponCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        coupon_code:
+          type: string
+          maxLength: 50
+        discount_type:
+          $ref: '#/components/schemas/DiscountTypeEnum'
+        amount:
+          type: number
+          format: double
+        minimum_amount_of_order:
+          type: number
+          format: double
+        maximum_discount_value:
+          type: number
+          format: double
+        usage_limit:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        usage_limit_per_user:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        is_active:
+          type: boolean
+      required:
+      - amount
+      - coupon_code
+      - discount_type
+      - id
+    CouponRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        discount_type:
+          $ref: '#/components/schemas/DiscountTypeEnum'
+        code:
+          type: string
+          maxLength: 50
+        coupon_code:
+          type: string
+          maxLength: 50
+        amount:
+          type: number
+          format: double
+        minimum_amount_of_order:
+          type: number
+          format: double
+        maximum_discount_value:
+          type: number
+          format: double
+        usage_limit:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        usage_limit_per_user:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        start_date:
+          type: string
+          format: date
+          nullable: true
+        end_date:
+          type: string
+          format: date
+          nullable: true
+        is_active:
+          type: boolean
+        num_of_usage:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        num_of_customers:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        coupon_sales_amount:
+          type: number
+          format: double
+        last_used_at:
+          type: string
+          format: date-time
+          nullable: true
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        merchant:
+          type: integer
+      required:
+      - amount
+      - code
+      - coupon_code
+      - created_at
+      - discount_type
+      - id
+      - merchant
+    CouponUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+      required:
+      - id
+    CouponsReport:
+      type: object
+      properties:
+        id:
+          type: integer
+        code:
+          type: string
+        coupon_code:
+          type: string
+        amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        last_used_at:
+          type: string
+          format: date-time
+          nullable: true
+        is_active:
+          type: boolean
+        total_orders_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - amount
+      - code
+      - coupon_code
+      - id
+      - is_active
+      - last_used_at
+      - total_orders_amount
+    CouponsReportStats:
+      type: object
+      properties:
+        total_coupons:
+          type: string
+          readOnly: true
+        total_orders_amount:
+          type: string
+          readOnly: true
+        total_orders_discounts_amount:
+          type: string
+          readOnly: true
+      required:
+      - total_coupons
+      - total_orders_amount
+      - total_orders_discounts_amount
+    CustomerRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 255
+        mobile:
+          type: string
+          maxLength: 50
+        email:
+          type: string
+          format: email
+          maxLength: 254
+        created_at:
+          type: string
+          format: date
+        orders_count:
+          type: integer
+          readOnly: true
+        orders_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          readOnly: true
+      required:
+      - code
+      - created_at
+      - email
+      - id
+      - mobile
+      - name
+      - orders_amount
+      - orders_count
+    CustomerSalesReport:
+      type: object
+      properties:
+        customer_id:
+          type: integer
+        customer_code:
+          type: string
+        customer_name:
+          type: string
+        customer_mobile:
+          type: string
+        total_orders:
+          type: integer
+        total_sales:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        last_order_date:
+          type: string
+          format: date
+          nullable: true
+      required:
+      - customer_code
+      - customer_id
+      - customer_mobile
+      - customer_name
+      - last_order_date
+      - total_orders
+      - total_sales
+    CustomerSalesReportStats:
+      type: object
+      properties:
+        total_customers:
+          type: string
+          readOnly: true
+        total_orders:
+          type: string
+          readOnly: true
+        total_orders_amount:
+          type: string
+          readOnly: true
+      required:
+      - total_customers
+      - total_orders
+      - total_orders_amount
+    CustomerStats:
+      type: object
+      properties:
+        total_customers:
+          type: string
+          readOnly: true
+      required:
+      - total_customers
+    DashboardOrders:
+      type: object
+      properties:
+        total_orders:
+          type: string
+          readOnly: true
+        total_sales:
+          type: string
+          readOnly: true
+        total_store_customers:
+          type: string
+          readOnly: true
+        total_customers_rate:
+          type: string
+          readOnly: true
+        rated_customers:
+          type: string
+          readOnly: true
+        total_orders_abandoned_carts:
+          type: string
+          readOnly: true
+        total_orders_whishing_list:
+          type: string
+          readOnly: true
+        total_orders_whatsapp:
+          type: string
+          readOnly: true
+        total_orders_awaiting_list:
+          type: string
+          readOnly: true
+        total_orders_calls:
+          type: string
+          readOnly: true
+      required:
+      - rated_customers
+      - total_customers_rate
+      - total_orders
+      - total_orders_abandoned_carts
+      - total_orders_awaiting_list
+      - total_orders_calls
+      - total_orders_whatsapp
+      - total_orders_whishing_list
+      - total_sales
+      - total_store_customers
+    DashboardOrdersContactMethod:
+      type: object
+      properties:
+        total_orders:
+          type: string
+          readOnly: true
+      required:
+      - total_orders
+    DashboardOrdersSaleChannels:
+      type: object
+      properties:
+        sale_channels_percentages:
+          type: string
+          readOnly: true
+      required:
+      - sale_channels_percentages
+    DashboardOrdersStatus:
+      type: object
+      properties:
+        total_orders:
+          type: string
+          readOnly: true
+      required:
+      - total_orders
+    DashboardSales:
+      type: object
+      properties:
+        sales:
+          type: string
+          readOnly: true
+      required:
+      - sales
+    DiscountTypeEnum:
+      enum:
+      - p
+      - f
+      type: string
+      description: |-
+        * `p` - Percentage
+        * `f` - Fixed
+    MerchantPluginRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        plugin:
+          $ref: '#/components/schemas/PluginRetrieve'
+        is_active:
+          type: boolean
+        settings: {}
+        draft_settings: {}
+      required:
+      - id
+      - plugin
+    MerchantPluginUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+        settings: {}
+        draft_settings: {}
+      required:
+      - id
+    Notification:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        notification_type:
+          $ref: '#/components/schemas/NotificationTypeEnum'
+        entity:
+          nullable: true
+        is_read:
+          type: boolean
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+        updated_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - created_at
+      - id
+      - notification_type
+      - updated_at
+    NotificationTypeEnum:
+      enum:
+      - welcome
+      - new_order
+      - new_cart
+      - new_awaiting_list
+      - new_wish_list
+      - new_contact_request
+      type: string
+      description: |-
+        * `welcome` - Welcome
+        * `new_order` - New Order
+        * `new_cart` - New Cart
+        * `new_awaiting_list` - New Awaiting List
+        * `new_wish_list` - New Wish List
+        * `new_contact_request` - New Contact Request
+    NullEnum:
+      enum:
+      - null
+    OrderItem:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        unit_price:
+          type: number
+          format: double
+        total_price:
+          type: number
+          format: double
+        product_id:
+          type: integer
+          nullable: true
+          readOnly: true
+      required:
+      - id
+      - product_id
+      - total_price
+      - unit_price
+    OrderRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 50
+        reference_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        sub_total_amount:
+          type: number
+          format: double
+        coupon_code:
+          type: string
+          nullable: true
+          maxLength: 255
+        discount_amount:
+          type: number
+          format: double
+        final_total_amount:
+          type: number
+          format: double
+        created_at:
+          type: string
+          format: date
+        is_contacted:
+          type: boolean
+        customer_rate:
+          type: number
+          format: double
+        customer_comment:
+          type: string
+        customer:
+          $ref: '#/components/schemas/CustomerRetrieve'
+        note:
+          type: string
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderItem'
+        sale_channels:
+          type: string
+          readOnly: true
+      required:
+      - code
+      - created_at
+      - customer
+      - id
+      - items
+      - reference_id
+      - sale_channels
+    OrderSaleChannels:
+      type: object
+      properties:
+        contribution_percentage:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        total_order_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        average_orders_per_day:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        average_final_total_amount:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - average_final_total_amount
+      - average_orders_per_day
+      - contribution_percentage
+      - total_order_amount
+    OrderSaleChannelsStats:
+      type: object
+      properties:
+        total_sales:
+          type: string
+          readOnly: true
+      required:
+      - total_sales
+    OrderStats:
+      type: object
+      properties:
+        total_orders:
+          type: string
+          readOnly: true
+        total_completed_orders:
+          type: string
+          readOnly: true
+        total_contacts:
+          type: string
+          readOnly: true
+        total_sales:
+          type: string
+          readOnly: true
+      required:
+      - total_completed_orders
+      - total_contacts
+      - total_orders
+      - total_sales
+    OrderStatusUpdate:
+      type: object
+      properties:
+        status:
+          type: integer
+      required:
+      - status
+    OrderTransactionsStats:
+      type: object
+      properties:
+        total_orders_count:
+          type: string
+          readOnly: true
+        total_orders:
+          type: string
+          readOnly: true
+      required:
+      - total_orders
+      - total_orders_count
+    OrderUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        customer_rate:
+          type: number
+          format: double
+          maximum: 5
+          minimum: 0
+        customer_comment:
+          type: string
+        note:
+          type: string
+      required:
+      - customer_rate
+      - id
+    OrdersReport:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 50
+        reference_id:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        final_total_amount:
+          type: number
+          format: double
+        created_at:
+          type: string
+          format: date
+        customer:
+          $ref: '#/components/schemas/CustomerRetrieve'
+        sale_channels:
+          type: string
+          readOnly: true
+      required:
+      - code
+      - created_at
+      - customer
+      - id
+      - reference_id
+      - sale_channels
+    OrdersReportStats:
+      type: object
+      properties:
+        total_orders:
+          type: string
+          readOnly: true
+        total_orders_amount:
+          type: string
+          readOnly: true
+      required:
+      - total_orders
+      - total_orders_amount
+    PaginatedAwaitingListProductsRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AwaitingListProductsRetrieve'
+    PaginatedCartList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Cart'
+    PaginatedContactRequestsRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContactRequestsRetrieve'
+    PaginatedCouponRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CouponRetrieve'
+    PaginatedCouponsReportList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CouponsReport'
+    PaginatedCustomerRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerRetrieve'
+    PaginatedCustomerSalesReportList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomerSalesReport'
+    PaginatedMerchantPluginRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/MerchantPluginRetrieve'
+    PaginatedNotificationList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notification'
+    PaginatedOrderRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderRetrieve'
+    PaginatedOrderSaleChannelsList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrderSaleChannels'
+    PaginatedOrdersReportList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrdersReport'
+    PaginatedPerformanceReportList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PerformanceReport'
+    PaginatedPermissionGroupRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionGroupRetrieve'
+    PaginatedProductRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductRetrieve'
+    PaginatedSalesReportList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/SalesReport'
+    PaginatedStaffRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/StaffRetrieve'
+    PaginatedWishListProductsRetrieveList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/WishListProductsRetrieve'
+    PatchedAwaitingListProductsUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        is_contacted:
+          type: boolean
+        note:
+          type: string
+          nullable: true
+    PatchedCartUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_contacted:
+          type: boolean
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        note:
+          type: string
+    PatchedContactRequestsUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_contacted:
+          type: boolean
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        note:
+          type: string
+          nullable: true
+    PatchedCouponUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+    PatchedMerchantPluginUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_active:
+          type: boolean
+        settings: {}
+        draft_settings: {}
+    PatchedOrderUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        customer_rate:
+          type: number
+          format: double
+          maximum: 5
+          minimum: 0
+        customer_comment:
+          type: string
+        note:
+          type: string
+    PatchedPermissionGroupUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        is_active:
+          type: boolean
+        permissions: {}
+    PatchedUserUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        name:
+          type: string
+          title: Name of User
+          maxLength: 255
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        permission_group:
+          type: integer
+          nullable: true
+    PatchedWishListProductsUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_contacted:
+          type: boolean
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        note:
+          type: string
+          nullable: true
+    PerformanceReport:
+      type: object
+      properties:
+        day:
+          type: string
+          format: date
+        success_calls:
+          type: integer
+        transform_rate:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+        total_orders:
+          type: integer
+        total_sales:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - day
+      - success_calls
+      - total_orders
+      - total_sales
+      - transform_rate
+    PerformanceReportStats:
+      type: object
+      properties:
+        success_calls:
+          type: string
+          readOnly: true
+        total_orders:
+          type: string
+          readOnly: true
+        total_sales:
+          type: string
+          readOnly: true
+      required:
+      - success_calls
+      - total_orders
+      - total_sales
+    PermissionGroupCreate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+      required:
+      - name
+    PermissionGroupRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 255
+        actions_count:
+          type: string
+          readOnly: true
+        is_active:
+          type: boolean
+        permissions: {}
+      required:
+      - actions_count
+      - id
+      - name
+    PermissionGroupUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          maxLength: 255
+        is_active:
+          type: boolean
+        permissions: {}
+      required:
+      - name
+    PluginRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        plugin_type:
+          $ref: '#/components/schemas/PluginTypeEnum'
+      required:
+      - id
+      - plugin_type
+    PluginTypeEnum:
+      enum:
+      - contact
+      - awaiting_list
+      - wish_list
+      - phone
+      type: string
+      description: |-
+        * `contact` - Contact
+        * `awaiting_list` - Awaiting List
+        * `wish_list` - Wish List
+        * `phone` - Phone
+    ProductRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        code:
+          type: string
+          maxLength: 50
+        name:
+          type: string
+          maxLength: 255
+        taxed_price:
+          type: number
+          format: double
+        quantity:
+          type: integer
+          maximum: 2147483647
+          minimum: -2147483648
+        is_available:
+          type: boolean
+        url_customer:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+        url_admin:
+          type: string
+          format: uri
+          nullable: true
+          maxLength: 200
+      required:
+      - code
+      - id
+      - is_available
+      - name
+      - taxed_price
+    RoleEnum:
+      enum:
+      - merchant
+      - call_center
+      type: string
+      description: |-
+        * `merchant` - Merchant
+        * `call_center` - Call Center
+    SalesReport:
+      type: object
+      properties:
+        day:
+          type: string
+          format: date
+        total_orders:
+          type: integer
+        total_sales:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+        avg_sales:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+      required:
+      - avg_sales
+      - day
+      - total_orders
+      - total_sales
+    SalesReportStats:
+      type: object
+      properties:
+        total_orders:
+          type: string
+          readOnly: true
+        total_orders_amount:
+          type: string
+          readOnly: true
+      required:
+      - total_orders
+      - total_orders_amount
+    SallaEvent:
+      type: object
+      properties:
+        event:
+          type: string
+        merchant:
+          type: string
+        data: {}
+      required:
+      - data
+      - event
+      - merchant
+    StaffRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        name:
+          type: string
+          title: Name of User
+          maxLength: 255
+        permission_group:
+          $ref: '#/components/schemas/PermissionGroupRetrieve'
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+      required:
+      - id
+      - permission_group
+      - username
+    StoreTypeEnum:
+      enum:
+      - salla
+      - zid
+      - custom
+      type: string
+      description: |-
+        * `salla` - Salla
+        * `zid` - Zid
+        * `custom` - Custom
+    SubscriptionStatusEnum:
+      enum:
+      - initial
+      - trial
+      - active
+      - expired
+      - canceled
+      - uninstalled
+      - deactivated
+      type: string
+      description: |-
+        * `initial` - Initial
+        * `trial` - Trial
+        * `active` - Active
+        * `expired` - Expired
+        * `canceled` - Canceled
+        * `uninstalled` - Uninstalled
+        * `deactivated` - Deactivated
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+    UserChangePassword:
+      type: object
+      properties:
+        old_password:
+          type: string
+          writeOnly: true
+        new_password:
+          type: string
+          writeOnly: true
+      required:
+      - new_password
+      - old_password
+    UserCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        password:
+          type: string
+          maxLength: 128
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        permission_group:
+          type: integer
+          nullable: true
+      required:
+      - password
+      - username
+    UserResetPasswordRVerifyOTP:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        otp:
+          type: integer
+      required:
+      - email
+      - otp
+    UserResetPasswordSendOTP:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+      required:
+      - email
+    UserResetPasswordSetNewPassword:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+        otp:
+          type: integer
+        new_password:
+          type: string
+          writeOnly: true
+      required:
+      - email
+      - new_password
+      - otp
+    UserRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          title: Name of User
+          maxLength: 255
+        mobile:
+          type: string
+          maxLength: 255
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        role:
+          $ref: '#/components/schemas/RoleEnum'
+        store_type:
+          $ref: '#/components/schemas/StoreTypeEnum'
+        store_id:
+          type: string
+          maxLength: 255
+        store_domain:
+          type: string
+          maxLength: 255
+        store_name:
+          type: string
+          maxLength: 255
+        subscription_status:
+          $ref: '#/components/schemas/SubscriptionStatusEnum'
+        subscription_start_date:
+          type: string
+          format: date
+          nullable: true
+        subscription_end_date:
+          type: string
+          format: date
+          nullable: true
+        permission_group:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - permission_group
+      - store_id
+      - username
+    UserUpdate:
+      type: object
+      properties:
+        username:
+          type: string
+          description: Required. 150 characters or fewer. Letters, digits and @/./+/-/_
+            only.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        email:
+          type: string
+          format: email
+          title: Email address
+          maxLength: 254
+        name:
+          type: string
+          title: Name of User
+          maxLength: 255
+        is_active:
+          type: boolean
+          title: Active
+          description: Designates whether this user should be treated as active. Unselect
+            this instead of deleting accounts.
+        permission_group:
+          type: integer
+          nullable: true
+      required:
+      - username
+    WPP:
+      type: object
+      properties:
+        payload: {}
+      required:
+      - payload
+    WishListProductsCreate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        merchant:
+          type: string
+        customer:
+          type: string
+        product:
+          type: string
+      required:
+      - customer
+      - id
+      - merchant
+      - product
+    WishListProductsRetrieve:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        customer:
+          $ref: '#/components/schemas/CustomerRetrieve'
+        product:
+          $ref: '#/components/schemas/ProductRetrieve'
+        order:
+          type: integer
+          nullable: true
+        is_contacted:
+          type: boolean
+        created_at:
+          type: string
+          format: date
+          readOnly: true
+        note:
+          type: string
+          nullable: true
+      required:
+      - created_at
+      - customer
+      - id
+      - product
+    WishListProductsStats:
+      type: object
+      properties:
+        total_whish_lists:
+          type: string
+          readOnly: true
+      required:
+      - total_whish_lists
+    WishListProductsUpdate:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        is_contacted:
+          type: boolean
+        contact_method:
+          nullable: true
+          minimum: -2147483648
+          maximum: 2147483647
+          oneOf:
+          - $ref: '#/components/schemas/ContactMethodEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        note:
+          type: string
+          nullable: true
+      required:
+      - id
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+servers:
+- url: https://callva.net
+  description: Production server

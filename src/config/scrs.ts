@@ -1,0 +1,17 @@
+export const srcs = {
+  logo: '/images/Hub-logo.png',
+  TrashIcon: '/images/icons/trash.svg',
+  EditIcon: '/images/icons/edit-2.svg',
+  AlertDelete: '/images/icons/alert-delete.svg',
+  SuccessSign: '/images/icons/success-sign.svg',
+  logoLogin: '/images/logo-login.png',
+  areaChart: '/images/grid-area-chart.png',
+  loginBg: '/images/login-bg.png',
+  youtube: '/images/icons/social-icons/youtube.svg',
+  instagram: '/images/icons/social-icons/instagram.svg',
+  snapchat: '/images/icons/social-icons/snapchat.svg',
+  facebook: '/images/icons/social-icons/facebook.svg',
+  tiktok: '/images/icons/social-icons/tiktok.svg',
+  emptyTable: '/images/icons/empty-table.svg',
+  qrCode: '/images/icons/QrCode.svg',
+};
