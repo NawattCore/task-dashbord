@@ -28,7 +28,11 @@ import AnimatedCard from './card';
 import PopupComponent from '../general-components/Popup-component';
 const handleLogout = async () => {
   try {
-    await signOut({ callbackUrl: '/login' });
+    // Use absolute URL based on current origin to avoid falling back to localhost
+    const callback = typeof window !== 'undefined'
+      ? new URL('/login', window.location.origin).toString()
+      : '/login';
+    await signOut({ callbackUrl: callback });
   } catch (error) {
     console.error('Logout failed:', error);
   }
