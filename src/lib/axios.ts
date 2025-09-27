@@ -13,10 +13,30 @@ import {
   SuccessResponse,
 } from '@/types/custom-fetch';
 
+// Prefer configured API URL, otherwise fall back to same-origin.
+// On Vercel server, we can also derive origin from VERCEL_URL (no protocol).
+const resolveBaseURL = (isServer: boolean): string => {
+  const configured = process.env.NEXT_PUBLIC_API_URL?.trim();
+  if (configured) return configured;
+  if (isServer) {
+    const vercelUrl = process.env.VERCEL_URL?.trim();
+    if (vercelUrl) return `https://${vercelUrl}`;
+    return '';
+  }
+  if (typeof window !== 'undefined') {
+    try {
+      return window.location.origin;
+    } catch {
+      return '';
+    }
+  }
+  return '';
+};
+
 // Client-side API client
 export const createClientApi = (): AxiosInstance => {
   const authApi = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || '',
+    baseURL: resolveBaseURL(false),
     headers: { 'Content-Type': 'application/json' },
   });
 
@@ -38,7 +58,7 @@ export const createClientApi = (): AxiosInstance => {
 // Server-side API client
 export const createServerApi = async (): Promise<AxiosInstance> => {
   const authApi = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || '',
+    baseURL: resolveBaseURL(true),
     headers: { 'Content-Type': 'application/json' },
   });
 

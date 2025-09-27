@@ -12,6 +12,10 @@ const nextConfig = {
   reactStrictMode: true,
   experimental: {
     appDir: true,
+    // Validate required envs at runtime (Next.js 15+)
+    runtimeEnv: {
+      NEXT_PUBLIC_API_URL: process.env.NEXT_PUBLIC_API_URL,
+    },
   },
 };
 
