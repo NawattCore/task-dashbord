@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Grid4, LogoutCurve, Profile, Profile2User } from 'iconsax-reactjs';
 import { signOut, useSession } from 'next-auth/react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { Sidebar, SidebarMenu } from '@/components/layout/sidebar';
 import { Button } from '@/components/ui/button';
@@ -17,7 +18,15 @@ import PopupComponent from '@/components/general-components/Popup-component';
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const { isSidebarOpen, setIsSidebarOpen } = useOpenSidebar();
   const [openPopup, setOpenPopup] = useState(false);
-  const { data: session, status } = useSession();
+  const { status } = useSession();
+  const router = useRouter();
+
+  // Guard: if not authenticated on client, send to login to avoid infinite loader
+  useEffect(() => {
+    if (status === 'unauthenticated') {
+      router.replace('/login');
+    }
+  }, [status, router]);
   const handleLogout = async () => {
     try {
       await signOut({ callbackUrl: '/login' });
@@ -84,7 +93,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
           </FilterPopover>
         </div>
         <div className="h-[calc(100dvh-130px)] overflow-y-auto pl-2">
-          {status === 'loading' || !session ? (
+          {status === 'loading' ? (
             <div className="flex items-center justify-center h-[calc(100vh-150px)]">
               <Image
                 src={srcs.logo}
